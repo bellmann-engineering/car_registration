@@ -1,15 +1,14 @@
+import unittest
 from person import Person
+from parameterized import parameterized
 
 class TestPerson(unittest.TestCase):
-    def test_is_adult(self):
-        # Test case 1: Person is an adult
-        adult_person = Person("John Doe", 25)
-        self.assertTrue(adult_person.is_adult())
 
-        # Test case 2: Person is not an adult
-        minor_person = Person("Jane Smith", 16)
-        self.assertFalse(minor_person.is_adult())
-
-        # Test case 3: Person just turned 18
-        just_turned_18 = Person("Alice Brown", 18)
-        self.assertTrue(just_turned_18.is_adult())
+    @parameterized.expand([
+        ("Max Muster", 25, True),  # Adult person
+        ("Karl Niemand", 16, False),  # Minor person
+        ("Alice Wunderland", 18, True),  # Just turned 18
+    ])
+    def test_is_adult(self, name, age, expected_result):
+        person = Person(name, age)
+        self.assertEqual(person.is_adult(), expected_result)
